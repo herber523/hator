@@ -1,0 +1,21 @@
+version: '2'
+
+services:
+  tor:
+    image: dperson/torproxy
+    environment:
+        - TCP_PORTS=9050
+    expose:
+        - "9050"
+
+  lb:
+    image: dockercloud/haproxy
+    depends_on:
+      - tor
+    environment:
+      - ADDITIONAL_SERVICES=hator:tor
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - 9050:9050
+      - 19360:1936
