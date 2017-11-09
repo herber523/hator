@@ -8,6 +8,9 @@ services:
       - "19360:1936"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+    deploy:
+      placement:
+        constraints: [node.role == manager]
 
   tor:
     image: dperson/torproxy
